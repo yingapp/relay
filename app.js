@@ -1,35 +1,25 @@
 const WebTorrent = require('webtorrent-hybrid')
+require('events').EventEmitter.defaultMaxListeners = 250
 const fs = require('fs')
 const client = new WebTorrent()
-var http = require('http');
-require('events').EventEmitter.defaultMaxListeners = 250
+var express = require('express');
+var app = express();
 const cache = {}
-http.createServer(function (request, response) {
-    const url = request.url;
+app.get('/:magnet', function (req, res) {
+    const url = req.url;
     if (url.substr(0, 8) === '/magnet:') {
         const torrentId = url.substr(1)
         if (!cache[torrentId]) {
             cache[torrentId] = true
             console.log('torrentId:\t', torrentId)
-            client.add(torrentId, { path: __dirname + '/files' }, torrent => {
-                const files = torrent.files
-                let length = files.length
-                // Stream each file to the disk
-                files.forEach(file => {
-                    const source = file.createReadStream()
-                    const destination = fs.createWriteStream(file.name)
-                    source.on('end', () => {
-                        console.log('file:\t\t', file.name)
-                        // close after all files are saved
-                        length -= 1
-                        if (!length) {
-                            process.exit()
-                        }
-                    }).pipe(destination)
-                })
-            })
+            client.add(torrentId, { path: __dirname + '/files' })
         }
     }
-    response.writeHead(200, { 'Content-Type': 'text/plain' });
-    response.end(request.url);
-}).listen(60);
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.end(url);
+});
+var server = require('http').Server(app);
+var port = process.env.PORT || 60;
+server.listen(port, function () {
+  console.log('Server listening at port %d', port);
+});
