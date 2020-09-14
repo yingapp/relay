@@ -1,0 +1,16 @@
+{
+  "name": "relay",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "dev": "node %NODE_DEBUG_OPTION% app",
+    "start": "node app"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "webtorrent-hybrid": "^4.0.2"
+  }
+}
