@@ -1,0 +1,41 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Users\jw\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add webtorrent-hybrid
+
+PATH: 
+  C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files (x86)\ATI Technologies\ATI.ACE\Core-Static;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;C:\Program Files (x86)\Common Files\Adobe\AGL;C:\Program Files\Java\jdk-14.0.2\bin;C:\Users\jw\AppData\Local\Microsoft\WindowsApps;C:\Users\jw\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\jw\AppData\Roaming\npm;C:\Program Files\heroku\bin;C:\Users\jw\AppData\Local\Android\Sdk\platform-tools;C:\Users\jw\AppData\Local\Android\Sdk\emulator;C:\Users\jw\AppData\Local\Android\Sdk\tools;C:\Users\jw\AppData\Local\Android\Sdk\tools\bin;C:\Users\jw\AppData\Local\GitHubDesktop\bin
+
+Yarn version: 
+  1.22.5
+
+Node version: 
+  12.18.3
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: EPERM: operation not permitted, unlink 'D:\code\ying\web\relay\node_modules\bufferutil\prebuilds\win32-x64\node-napi.node'
+
+npm manifest: 
+  {
+    "name": "relay",
+    "version": "1.0.0",
+    "description": "",
+    "main": "app.js",
+    "scripts": {
+      "dev": "node %NODE_DEBUG_OPTION% app",
+      "start": "node app"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+      "express": "^4.17.1",
+      "webtorrent-hybrid": "^4.0.2"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

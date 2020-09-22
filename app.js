@@ -1,7 +1,7 @@
 require('events').EventEmitter.defaultMaxListeners = 250
 const fs = require('fs')
 var SimplePeer = require('simple-peer')
-const WebTorrent = require('webtorrent')
+const WebTorrent = require('webtorrent-hybrid')
 const client = new WebTorrent({
     tracker: {
         rtcConfig: {
@@ -17,6 +17,9 @@ const client = new WebTorrent({
         }
     }
 })
+// client.on('error', function (err) {
+//     console.error('ERROR: ' + err.message);
+// });
 // const client = new WebTorrent()
 var express = require('express');
 var app = express();
@@ -30,7 +33,16 @@ app.get('/:magnet', function (req, res) {
         } else {
             cache[torrentId] = true
             console.log('torrentId:\t', torrentId)
-            client.add(torrentId, { path: __dirname + '/files' })
+            client.add(torrentId, { path: __dirname + '/files' }, torrent => {
+                torrent.on('download', function (bytes) {
+                    console.log('下载字节: ' + bytes)
+                    console.log('总下载字节: ' + torrent.downloaded)
+                    console.log('下载速度: ' + torrent.downloadSpeed)
+                    console.log('下载进度: ' + torrent.progress)
+                    console.log('上传速度: ' + torrent.uploaded)
+                    console.log('连接数量: ' + torrent.numPeers)
+                })
+            })
 
             // client.add(torrentId, torrent => {
             //     const files = torrent.files
