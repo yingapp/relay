@@ -17,10 +17,7 @@ const client = new WebTorrent({
         }
     }
 })
-// client.on('error', function (err) {
-//     console.error('ERROR: ' + err.message);
-// });
-// const client = new WebTorrent()
+
 var express = require('express');
 var app = express();
 const cache = {}
