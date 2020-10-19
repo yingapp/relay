@@ -17,11 +17,21 @@ const client = new WebTorrent({
         }
     }
 })
-
-var express = require('express');
-var app = express();
 const cache = {}
-app.get('/:magnet', function (req, res) {
+var express = require('express');
+var cors = require('cors')
+var app = express()
+var allowlist = ['https://yingapp.herokuapp.com', 'http://loclhost:50']
+var corsOptionsDelegate = function (req, callback) {
+  var corsOptions;
+  if (allowlist.indexOf(req.header('Origin')) !== -1) {
+    corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
+  } else {
+    corsOptions = { origin: false } // disable CORS for this request
+  }
+  callback(null, corsOptions) // callback expects two parameters: error and options
+}
+app.get('/:magnet',cors(corsOptionsDelegate), function (req, res) {
     const url = req.url;
     if (url.substr(0, 8) === '/magnet:') {
         const torrentId = url.substr(1)
@@ -40,25 +50,9 @@ app.get('/:magnet', function (req, res) {
                     console.log('连接数量: ' + torrent.numPeers)
                 })
             })
-
-            // client.add(torrentId, torrent => {
-            //     const files = torrent.files
-            //     let length = files.length
-            //     // Stream each file to the disk
-            //     files.forEach(file => {
-            //         const source = file.createReadStream()
-            //         const destination = fs.createWriteStream(__dirname + '/files/' + file.name)
-            //         source.on('end', () => {
-            //             console.log('file:\t\t', file.name)
-            //             // close after all files are saved
-            //             length -= 1
-            //             if (!length) process.exit()
-            //         }).pipe(destination)
-            //     })
-            // })
         }
     }
-    res.writeHead(200, { 'Content-Type': 'text/plain', 'Access-Control-Allow-Origin': '*' });
+    res.writeHead(200);
     res.end(url);
 });
 var server = require('http').Server(app);
