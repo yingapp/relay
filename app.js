@@ -19,7 +19,7 @@ const client = new WebTorrent({
 })
 const cache = {}
 var express = require('express');
-var cors = require('cors')
+var cors = require('cors');
 var app = express()
 var allowlist = ['https://yingapp.herokuapp.com', 'http://loclhost:50']
 var corsOptionsDelegate = function (req, callback) {
