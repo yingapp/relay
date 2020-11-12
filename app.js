@@ -4,19 +4,12 @@ var SimplePeer = require('simple-peer')
 const WebTorrent = require('webtorrent-hybrid')
 const client = new WebTorrent({
     tracker: {
-        rtcConfig: {
-            ...SimplePeer.config,
-            ...[
-                {
-                    urls: [
-                        'stun:stun.l.google.com:19302',
-                        'stun:global.stun.twilio.com:3478'
-                    ]
-                },
-            ]
-        }
+      rtcConfig: {
+        ...SimplePeer.config,
+        iceServers:[{"urls":["stun:stun.l.google.com:19302","stun:global.stun.twilio.com:3478"]},{"urls":["turn:relay.instant.io:443?transport=udp","turn:relay.instant.io:443?transport=tcp","turns:relay.instant.io:443?transport=tcp"],"username":"relay.instant.io","credential":"nepal-cheddar-baize-oleander"}]
+      }
     }
-})
+  })
 const cache = {}
 var express = require('express');
 var cors = require('cors');
